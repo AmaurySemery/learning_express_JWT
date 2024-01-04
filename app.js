@@ -26,7 +26,8 @@ app.get('/movies', (req, res) => {
 var urlencodedParser = bodyParser.urlencoded({extended: false})
 
 app.post('/movies', urlencodedParser, (req, res) => {
-    console.log(req.body);
+    console.log('Le titre : ', req.body.movietitle);
+    console.log("L'année : ", req.body.movieyear);
     res.sendStatus(201);
 });
 
