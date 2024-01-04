@@ -10,9 +10,11 @@
     <body>
         <div class="central">
             <%- include ('./partials/header') %>
-            <h1>Films cultes</h1>
+            <h1><%= title %></h1>
             <div>
-                Ici est présenté ma liste de films que je juge cultes !
+                <% for (const movie of movies) { %>
+                    <div><%= movie.title %> (<%= movie.year %>)</div>
+                <% } %>
             </div>
 
             <%- include ('./partials/footer') %>
