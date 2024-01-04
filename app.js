@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const PORT = 3000;
 
-app.use('/public', express.static('public'))
+app.use('/public', express.static('public'));
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -19,6 +21,13 @@ app.get('/movies', (req, res) => {
         { title: "De rouille et d'os", year: 2012 }
     ];
     res.render('movies', { movies: frenchMovies, title: title });
+});
+
+var urlencodedParser = bodyParser.urlencoded({extended: false})
+
+app.post('/movies', urlencodedParser, (req, res) => {
+    console.log(req.body);
+    res.sendStatus(201);
 });
 
 // app.get('/movie-details', (req, res) => {
