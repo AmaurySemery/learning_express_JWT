@@ -3,6 +3,11 @@ const app = express();
 
 const PORT = 3000;
 
+app.use('/public', express.static('public'))
+
+app.set('views', './views');
+app.set('view engine', 'ejs');
+
 app.get('/movies', (req, res) => {
     res.send('Bientôt des films ici même');
 });
@@ -17,7 +22,8 @@ app.get('/movies/:id', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World !');
+    // res.send('Hello World !');
+    res.render('index');
 });
 
 app.listen(3000, (req, res) => {
