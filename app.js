@@ -21,10 +21,11 @@ app.get('/movies/add', (req, res) => {
     res.send("Prochainement, un formulaire d'ajout ici");
 });
 
-app.get('/movies/:id', (req, res) => {
+app.get('/movies/:id/:title', (req, res) => {
     const id = req.params.id;
+    const title = req.params.title;
     // res.send(`Film numéro ${id}`);
-    res.render('movie-details')
+    res.render('movie-details', { movieid: id, movietitle: title });
 });
 
 app.get('/', (req, res) => {
