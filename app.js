@@ -9,8 +9,13 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get('/movies', (req, res) => {
-    res.send('Bientôt des films ici même');
+    // res.send('Bientôt des films ici même');
+    res.render('movies');
 });
+
+// app.get('/movie-details', (req, res) => {
+//     res.render('movie-details');
+// });
 
 app.get('/movies/add', (req, res) => {
     res.send("Prochainement, un formulaire d'ajout ici");
@@ -18,7 +23,8 @@ app.get('/movies/add', (req, res) => {
 
 app.get('/movies/:id', (req, res) => {
     const id = req.params.id;
-    res.send(`Film numéro ${id}`);
+    // res.send(`Film numéro ${id}`);
+    res.render('movie-details')
 });
 
 app.get('/', (req, res) => {
