@@ -3,6 +3,15 @@ const app = express();
 
 const PORT = 3000;
 
+app.get('/movies', (req, res) => {
+    res.send('Bientôt des films ici même');
+});
+
+app.get('/movies/:id', (req, res) => {
+    const id = req.params.id;
+    res.send(`Film numéro ${id}`);
+});
+
 app.get('/', (req, res) => {
     res.send('Hello World !');
 });
