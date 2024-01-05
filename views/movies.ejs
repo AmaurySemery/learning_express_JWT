@@ -11,7 +11,7 @@
         <div class="central">
             <%- include ('./partials/header') %>
             <h1><%= title %></h1>
-            <div>
+            <div class="french-movies">
                 <% for (const movie of movies) { %>
                     <div><%= movie.title %> (<%= movie.year %>)</div>
                 <% } %>
@@ -28,6 +28,39 @@
             </div>
 
             <%- include ('./partials/footer') %>
+            <script>
+                const form = document.querySelector('form');
+                form.addEventListener('submit', addMovie);
+
+                function addMovie(event) {
+                    event.preventDefault();
+
+                    if(window.fetch) {
+                        fetch('/movies', {
+                            method: 'POST',
+                            body: new FormData(form)
+                        })
+                        .then(checkStatus)
+                        .catch(function(error) {
+                            console.error('request failed', error);
+                        })
+                    } else {
+                        // jQuery, XMLHttpRequest ...
+                    }
+                }
+
+                // Vérifier soi-même avec fetch que statut de la réponse se situe entre 200 et 299
+                function checkStatus(response) {
+                    if(response.status >= 200 && response.status < 300) {
+                        let newMovieDiv = document.createElement('div');
+                        const movietitle = document.getElementById('movietitle').value;
+                        const movieyear = document.getElementById('movieyear').value;
+                        newMovieDiv.innerHTML = `${movietitle} (${movieyear})}`;
+                        document.querySelector('.french-movies').appendChild(newMovieDiv);
+                        form.reset;
+                    }
+                }
+            </script>
         </div>
     </body>
 </html>
