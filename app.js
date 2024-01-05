@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const PORT = 3000;
+let frenchMovies = [];
 
 app.use('/public', express.static('public'));
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,6 +29,10 @@ var urlencodedParser = bodyParser.urlencoded({extended: false})
 app.post('/movies', urlencodedParser, (req, res) => {
     console.log('Le titre : ', req.body.movietitle);
     console.log("L'année : ", req.body.movieyear);
+    const newMovie = { title: req.body.movietitle, year: req.body.movieyear };
+    frenchMovies = [...frenchMovies, newMovie];
+    console.log(frenchMovies);
+
     res.sendStatus(201);
 });
 
