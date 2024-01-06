@@ -29,7 +29,7 @@ app.get('/movies', (req, res) => {
     res.render('movies', { movies: frenchMovies, title: title });
 });
 
-// var urlencodedParser = bodyParser.urlencoded({extended: false})
+var urlencodedParser = bodyParser.urlencoded({extended: false})
 
 // app.post('/movies', urlencodedParser, (req, res) => {
 //     console.log('Le titre : ', req.body.movietitle);
@@ -77,7 +77,31 @@ app.get('/', (req, res) => {
 app.get('/movie-search', (req, res) => {
     const API = process.env.API_KEY;
     res.render('movie-search', { API });
-})
+});
+
+app.get('/login', (req, res) => {
+    res.render('login', {title: 'Connexion'});
+});
+
+const fakeUser = { email: 'testuser@testmail.fr', password: 'qsd' };
+
+app.post('/login', urlencodedParser, (req, res) => {
+    console.log('login post', req.body);
+    if(!req.body) {
+        return res.sendStatus(500);
+    } else {
+        if(fakeUser.email === req.body.email && fakeUser.password === req.body.password) {
+            res.json({
+                email: 'testuser@testmail.fr',
+                favoriteMovie: "Il était une fois dans l'Ouest",
+                favoriteMovieTheater: "Ciné TNB, 1 rue Saint-Hélier, 35040 Rennes",
+                lasLoginDate: new Date()
+            }); 
+        } else {
+            res.sendStatus(401);
+        }
+    }
+});
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
