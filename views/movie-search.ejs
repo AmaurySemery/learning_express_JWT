@@ -21,7 +21,7 @@
             <%- include ('./partials/footer') %>
             <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
             <script>
-                const API_KEY = "your_API_key";
+                const API_KEY = "<%= API %>";
                 const term = document.querySelector('#term');
                 const searchBtn = document.querySelector('#btnSearch')
                 btnSearch.addEventListener('click', search);

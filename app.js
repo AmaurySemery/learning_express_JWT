@@ -3,8 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer();
+const dotenv = require("dotenv");
 
-const PORT = 3000;
+dotenv.config();
+
+const port = process.env.PORT;
 let frenchMovies = [];
 
 app.use('/public', express.static('public'));
@@ -72,9 +75,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/movie-search', (req, res) => {
-    res.render('movie-search');
+    const API = process.env.API_KEY;
+    res.render('movie-search', { API });
 })
 
-app.listen(3000, (req, res) => {
-    console.log(`listening on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`listening on port ${port}`);
 });
