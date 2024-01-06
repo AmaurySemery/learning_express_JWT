@@ -33,8 +33,19 @@
                     axios.get(query)
                     .then(function(response) {
                         console.log(response);
+                        displayResults(response.data.results);
                     });
                 }
+
+                function displayResults(results) {
+                    resultsDiv.innerHTML = '';
+                    for(let result of results) {
+                        let movieDiv = document.createElement('div');
+                        movieDiv.innerHTML = result.title;
+                        resultsDiv.appendChild(movieDiv);
+                    }
+                }
+
             </script>
         </div>
     </body>
