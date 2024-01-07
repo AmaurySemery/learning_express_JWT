@@ -12,7 +12,7 @@
 		<div class="central">
 			<h1><%= title %></h1>
 			<br>
-			<div>
+			<div id="login">
 				<form>
 					<legend>Veuillez saisir vos identifiants</legend>
 					<label for="email">email</label>
@@ -22,6 +22,10 @@
 					<button type="submit">connexion</button>
 				</form>
 			</div>
+
+			<div id="profile" style="display:none">
+				<button id="disconnectBtn">Déconnexion</button>
+			</div>
 		</div>
 
 		<footer>
@@ -30,6 +34,12 @@
 		<script>
 			var form = document.querySelector('form');
 			form.addEventListener("submit", loginUser);	
+
+			var loginArea = document.querySelector('#login');
+			var profileArea = document.querySelector('#profile');
+
+			var disconnectBtn = document.querySelector('#disconnectBtn');
+			disconnectBtn.addEventListener('click', disconnect);
 
 			function loginUser(event) {				
                 loginUserWithXHR(event);
@@ -51,6 +61,7 @@
 						// console.log('xhr', xhr);
 						var token= xhr.response;
 						localStorage.setItem('token', token);
+						switchToLoggedInMode();
 						form.reset();
 					}
 				}				
@@ -58,6 +69,21 @@
 				var password = document.getElementById('password').value;
 				var payLoad = "email=" + email + "&" + "password=" + password; 
 				xhr.send(payLoad); 				
+			}
+
+			function switchToLoggedInMode() {
+				loginArea.style.display = 'none';
+				profileArea.style.display = 'block';
+			}
+
+			function switchToLoggedOutMode() {
+				loginArea.style.display = 'block';
+				profileArea.style.display = 'none';
+			}
+
+			function disconnect() {
+				switchToLoggedOutMode();
+				localStorage.removeItem('token');
 			}
 		</script>
 	</body>
