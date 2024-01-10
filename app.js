@@ -24,7 +24,12 @@ const secret = process.env.SECRET;
 // cf documentation express-jwt
 // Express jwt exige que tous les URL soient accessibles uniquement si un token est fournit par un client, sauf la page de login
 // app.use(expressJwt({ secret: secret }).unless({ path: ['/login']}));
-app.use("/login", jwt({ secret: secret, algorithms: ["HS256"] }));
+app.use(
+    jwt({
+      secret: secret,
+      algorithms: ["HS256"],
+    }).unless({ path: ["/login"] })
+  );
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
