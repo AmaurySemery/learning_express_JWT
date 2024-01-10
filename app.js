@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer();
 const dotenv = require("dotenv");
+var path = require('path');
 
-const jwt = require('jsonwebtoken');
+const jsonwebtoken = require('jsonwebtoken');
+var { expressjwt: jwt } = require("express-jwt");
 
 dotenv.config();
 
@@ -14,6 +16,15 @@ let frenchMovies = [];
 
 app.use('/public', express.static('public'));
 // app.use(bodyParser.urlencoded({ extended: false }));
+
+const secret = process.env.SECRET;
+
+
+
+// cf documentation express-jwt
+// Express jwt exige que tous les URL soient accessibles uniquement si un token est fournit par un client, sauf la page de login
+// app.use(expressJwt({ secret: secret }).unless({ path: ['/login']}));
+app.use("/login", jwt({ secret: secret, algorithms: ["HS256"] }));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
@@ -86,7 +97,6 @@ app.get('/login', (req, res) => {
 });
 
 const fakeUser = { email: 'testuser@testmail.fr', password: 'qsd' };
-const secret = process.env.SECRET;
 
 app.post('/login', urlencodedParser, (req, res) => {
     console.log('login post', req.body);
@@ -94,7 +104,7 @@ app.post('/login', urlencodedParser, (req, res) => {
         return res.sendStatus(500);
     } else {
         if(fakeUser.email === req.body.email && fakeUser.password === req.body.password) {
-            const myToken = jwt.sign({iss: 'http://expressmovies.fr', user: 'Amaury', role: 'moderator'}, secret);
+            const myToken = jsonwebtoken.sign({iss: 'http://expressmovies.fr', user: 'Amaury', role: 'moderator'}, secret);
             res.json(myToken);
             // res.json({
             //     email: 'testuser@testmail.fr',
