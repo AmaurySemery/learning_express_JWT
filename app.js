@@ -28,7 +28,7 @@ app.use(
     jwt({
       secret: secret,
       algorithms: ["HS256"],
-    }).unless({ path: ["/login"] })
+    }).unless({ path: ["/", "/login", "/movie-search", "movies"] })
   );
 
 app.set('views', './views');
@@ -121,6 +121,11 @@ app.post('/login', urlencodedParser, (req, res) => {
             res.sendStatus(401);
         }
     }
+});
+
+app.get('/member-only', (req, res) => {
+    console.log('req.user', req.user);
+    res.send(req.user)
 });
 
 app.listen(port, () => {
